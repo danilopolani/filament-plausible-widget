@@ -1,0 +1,24 @@
+{
+    "name": "filament-plausible-widget",
+    "version": "1.0.0",
+    "description": "Plausible widget for Filament admin dashboard",
+    "main": "index.js",
+    "keywords": [
+        "danilopolani",
+        "filament",
+        "filament-admin",
+        "plausible",
+        "filament-plausible-widget"
+    ],
+    "author": "Danilo Polani",
+    "devDependencies": {
+        "laravel-mix": "^6.0.13",
+        "postcss": "^8.2.8"
+    },
+    "dependencies": {
+        "chart.js": "^2.9.4"
+    },
+    "scripts": {
+        "build": "npx mix --production"
+    }
+}
