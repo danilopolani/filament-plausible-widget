@@ -1,4 +1,4 @@
-# Very short description of the package
+# Filament Plausible Widget
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/danilopolani/filament-plausible-widget.svg?style=flat-square)](https://packagist.org/packages/danilopolani/filament-plausible-widget)
 [![Total Downloads](https://img.shields.io/packagist/dt/danilopolani/filament-plausible-widget.svg?style=flat-square)](https://packagist.org/packages/danilopolani/filament-plausible-widget)
@@ -56,10 +56,6 @@ Cache the statistics to avoid API calls for a specific amount of time.
 **`cache.ttl`**  
 
 If cache is enabled, define for how long the statistics are stored in the cache.
-
-## Known issues
-
-- Currently the `day` period does not work due a [Plausible bug](https://github.com/plausible/analytics/issues/797).
 
 ## Contributing
 
