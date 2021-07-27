@@ -22,7 +22,7 @@
                 pointBackgroundColor: 'rgb(101, 116, 205)',
                 backgroundColor: bgColor,
                 data: plausibleWidgetTimeseries.data,
-                label: 'Dataset',
+                label: 'Views',
                 fill: 'start',
             }]
         },

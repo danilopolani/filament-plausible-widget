@@ -23,9 +23,11 @@ class FilamentPlausibleWidgetServiceProvider extends PackageServiceProvider
     public function bootingPackage()
     {
         Livewire::component(Plausible::getName(), Plausible::class);
-
         Filament::registerWidget(Plausible::class);
-        Filament::registerScript($this->package->name, '/vendor/' . $this->package->name . '/app.js');
-        Filament::registerStyle($this->package->name, '/vendor/' . $this->package->name . '/app.css');
+
+        Filament::serving(function () {
+            Filament::registerScript($this->package->name, asset('/vendor/' . $this->package->name . '/app.js'));
+            Filament::registerStyle($this->package->name, asset('/vendor/' . $this->package->name . '/app.css'));
+        });
     }
 }
