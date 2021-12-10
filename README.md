@@ -7,6 +7,8 @@ Add a fancy Plausible statistics widget to your Filament admin dashboard.
 
 <p align="center"><img src="https://i.imgur.com/TlBBVis.png" alt="Filament Plausible Widget preview"></p>
 
+> If you're using Filament v1, please navigate the [v1 branch](https://github.com/danilopolani/filament-plausible-widget/tree/v1.0.1).
+
 ## Installation
 
 You can install the package via composer:
@@ -18,9 +20,22 @@ composer require danilopolani/filament-plausible-widget
 Then publish the config of the package and the assets as well:
 
 ```bash
-php artisan vendor:publish --tag=filament-plausible-widget-config
-php artisan vendor:publish --tag=filament-plausible-widget-assets
+php artisan vendor:publish --provider="DaniloPolani\FilamentPlausibleWidget\WidgetServiceProvider"
 ```
+
+Finally load the widget into your [Filament config file](https://filamentadmin.com/docs/2.x/admin/installation#publishing-the-configuration):
+
+```php
+'widgets' => [
+    // ...
+    'register' => [
+        // ...
+        \DaniloPolani\FilamentPlausibleWidget\Widgets\PlausibleWidget::class,
+    ],
+],
+```
+
+> If you're upgrading from v1 to v2 please note that the namespace changed from `\Danilopolani\`  to `\DaniloPolani\`.
 
 ### Upgrade
 When upgrading, you may want to republish the assets:

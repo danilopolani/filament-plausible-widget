@@ -1,12 +1,12 @@
 <?php
 
-namespace Danilopolani\FilamentPlausibleWidget\Clients;
+namespace DaniloPolani\FilamentPlausibleWidget\Clients;
 
 use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Http;
 
-class Plausible
+class PlausibleClient
 {
     protected PendingRequest $http;
 
@@ -17,7 +17,7 @@ class Plausible
         $this->config = Config::get('filament-plausible-widget');
 
         $this->http = Http::baseUrl('https://plausible.io/api/v1')
-        ->withToken($this->config['token']);
+            ->withToken($this->config['token']);
     }
 
     /**
