@@ -3,6 +3,7 @@
 namespace DaniloPolani\FilamentPlausibleWidget;
 
 use DaniloPolani\FilamentPlausibleWidget\Widgets\PlausibleWidget;
+use Filament\FilamentManager;
 use Filament\PluginServiceProvider;
 use Spatie\LaravelPackageTools\Package;
 
@@ -20,6 +21,13 @@ class WidgetServiceProvider extends PluginServiceProvider
         $package
             ->hasAssets()
             ->hasConfigFile();
+    }
+
+    public function packageRegistered(): void
+    {
+        $this->app->singletonIf('filament', fn (): FilamentManager => new FilamentManager());
+
+        parent::packageRegistered();
     }
 
     /**

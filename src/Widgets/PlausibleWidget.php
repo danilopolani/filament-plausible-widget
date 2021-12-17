@@ -12,13 +12,44 @@ use Illuminate\Support\Facades\Config;
 
 class PlausibleWidget extends Widget
 {
-    public static $view = 'filament-plausible-widget::widgets.plausible';
+    /**
+     * Currently selected period.
+     *
+     * @var string
+     */
     public string $currentPeriod;
+
+    /**
+     * Available periods to select.
+     *
+     * @var array
+     */
     public array $periods;
+
+    /**
+     * Determine if a user can select a different period.
+     *
+     * @var bool
+     */
     public bool $periodSelectable;
 
+    /**
+     * Plausible configuration.
+     *
+     * @var array
+     */
     protected array $config;
 
+    /**
+     * Widget view name.
+     *
+     * @var string
+     */
+    protected static string $view = 'filament-plausible-widget::widgets.plausible';
+
+    /**
+     * {@inheritDoc}
+     */
     public function mount()
     {
         $this->currentPeriod = Config::get('filament-plausible-widget.periods.default');
@@ -33,6 +64,9 @@ class PlausibleWidget extends Widget
         ];
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function render(): View
     {
         /** @var array $timeseries */
@@ -64,11 +98,17 @@ class PlausibleWidget extends Widget
         ]);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     protected function getTimeseries(): array
     {
         return (new PlausibleClient())->timeseries($this->currentPeriod);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     protected function formatDate(string $date): string
     {
         $formats = [
