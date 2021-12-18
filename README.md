@@ -7,6 +7,8 @@ Add a fancy Plausible statistics widget to your Filament admin dashboard.
 
 <p align="center"><img src="https://i.imgur.com/TlBBVis.png" alt="Filament Plausible Widget preview"></p>
 
+> If you're using Filament v1, please navigate the [1.x branch](https://github.com/danilopolani/filament-plausible-widget/tree/1.x).
+
 ## Installation
 
 You can install the package via composer:
@@ -15,12 +17,25 @@ You can install the package via composer:
 composer require danilopolani/filament-plausible-widget
 ```
 
-Then publish the config of the package and the assets as well:
+Then publish the assets of the package:
 
 ```bash
-php artisan vendor:publish --tag=filament-plausible-widget-config
 php artisan vendor:publish --tag=filament-plausible-widget-assets
 ```
+
+Finally load the widget into your [Filament config file](https://filamentadmin.com/docs/2.x/admin/installation#publishing-the-configuration):
+
+```php
+'widgets' => [
+    // ...
+    'register' => [
+        // ...
+        \DaniloPolani\FilamentPlausibleWidget\Widgets\PlausibleWidget::class,
+    ],
+],
+```
+
+> If you're upgrading from v1 to v2 please note that the namespace changed from `\Danilopolani\`  to `\DaniloPolani\`.
 
 ### Upgrade
 When upgrading, you may want to republish the assets:
@@ -31,29 +46,45 @@ php artisan vendor:publish --tag=filament-plausible-widget-assets --force
 
 ## Configuration
 
+You need only two env variables to display your Plausible widget:
+
+| Env | Description |
+| --- | --- |
+| `FILAMENT_PLAUSIBLE_TOKEN` | Your Plausible API key. [Read more »](#token) |
+| `FILAMENT_PLAUSIBLE_SITE_ID` | The site ID you want to get statistics of.  [Read more »](#site_id) |
+
+----
+
+If you want to go deeper you can publish the configuration file:
+
+```bash
+php artisan vendor:publish --tag=filament-plausible-widget-config
+```
+
 There are a few notable configuration options for the package.
 
-**`token`**
+### **`token`**
 
 Your Plausible API key. You can obtain an API key for your account by going to your user settings page https://plausible.io/settings.  
 
-**`site_id`**
+### **`site_id`**
 
 The site ID you want to get statistics of. You can obtain this value by navigating to your site settings in Plausible and grab the "value" of the domain field. E.g. `plausible.io/mysite.com` becomes `mysite.com`.  
 
-**`periods.default`** (Default: `7d`)
+### **`periods.default`**
 
-The period shown by default in the dashboard. Can be any of these values: `day`, `7d`, `30d`, `month`, `6mo`, `12mo`.  
+The period shown by default in the dashboard. Can be any of these values: `day`, `7d`, `30d`, `month`, `6mo`, `12mo`. Default: `7d`.
 
-**`periods.selectable`** (Default: `true`)
+### **`periods.selectable`**
 
-Choose if let users select a different period of statistics in the dashboard.  
+Choose if let users select a different period of statistics in the dashboard. Default: `true`.
 
-**`cache.enabled`** (<u>**Recommended**</u>) (Default: `true`)
+### **`cache.enabled`**
+<u>**Recommended**</u>
 
-Cache the statistics to avoid API calls for a specific amount of time.
+Cache the statistics to avoid API calls for a specific amount of time. Default: `true`.
 
-**`cache.ttl`**  
+### **`cache.ttl`**  
 
 If cache is enabled, define for how long the statistics are stored in the cache.
 

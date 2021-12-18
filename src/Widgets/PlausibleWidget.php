@@ -1,23 +1,55 @@
 <?php
 
-namespace Danilopolani\FilamentPlausibleWidget\Widgets;
+namespace DaniloPolani\FilamentPlausibleWidget\Widgets;
 
-use Danilopolani\FilamentPlausibleWidget\Clients\Plausible as PlausibleClient;
+use DaniloPolani\FilamentPlausibleWidget\Clients\PlausibleClient;
 use Filament\Widgets\Widget;
+use Illuminate\Contracts\View\View;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Config;
 
-class Plausible extends Widget
+class PlausibleWidget extends Widget
 {
-    public static $view = 'filament-plausible-widget::widgets.plausible';
+    /**
+     * Currently selected period.
+     *
+     * @var string
+     */
     public string $currentPeriod;
+
+    /**
+     * Available periods to select.
+     *
+     * @var array
+     */
     public array $periods;
+
+    /**
+     * Determine if a user can select a different period.
+     *
+     * @var bool
+     */
     public bool $periodSelectable;
 
+    /**
+     * Plausible configuration.
+     *
+     * @var array
+     */
     protected array $config;
 
+    /**
+     * Widget view name.
+     *
+     * @var string
+     */
+    protected static string $view = 'filament-plausible-widget::widgets.plausible';
+
+    /**
+     * {@inheritDoc}
+     */
     public function mount()
     {
         $this->currentPeriod = Config::get('filament-plausible-widget.periods.default');
@@ -32,12 +64,23 @@ class Plausible extends Widget
         ];
     }
 
-    public function render()
+    /**
+     * {@inheritDoc}
+     */
+    public function render(): View
     {
         /** @var array $timeseries */
-        $plausibleData = Config::get('filament-plausible-widget.cache.enabled')
-            ? Cache::remember('filament-plausible-widget:' . $this->currentPeriod, now()->add(Config::get('filament-plausible-widget.cache.ttl')), fn () => $this->getTimeseries())
-            : $this->getTimeseries();
+        $plausibleData = [];
+
+        if (Config::get('filament-plausible-widget.cache.enabled')) {
+            $plausibleData = Cache::remember(
+                'filament-plausible-widget:' . $this->currentPeriod,
+                Carbon::now()->add(Config::get('filament-plausible-widget.cache.ttl')),
+                fn () => $this->getTimeseries()
+            );
+        } else {
+            $plausibleData = $this->getTimeseries();
+        }
 
         $data = Collection::make($plausibleData)
             ->mapWithKeys(fn (array $item) => [$item['date'] => $item['visitors']]);
@@ -55,11 +98,22 @@ class Plausible extends Widget
         ]);
     }
 
+    /**
+     * Get timeseries for the current selected period.
+     *
+     * @return array
+     */
     protected function getTimeseries(): array
     {
         return (new PlausibleClient())->timeseries($this->currentPeriod);
     }
 
+    /**
+     * Format the date for the current selected period.
+     *
+     * @param  string $date
+     * @return string
+     */
     protected function formatDate(string $date): string
     {
         $formats = [
