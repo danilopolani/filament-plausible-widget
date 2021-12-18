@@ -23,18 +23,6 @@ Then publish the assets of the package:
 php artisan vendor:publish --tag=filament-plausible-widget-assets
 ```
 
-Finally load the widget into your [Filament config file](https://filamentadmin.com/docs/2.x/admin/installation#publishing-the-configuration):
-
-```php
-'widgets' => [
-    // ...
-    'register' => [
-        // ...
-        \DaniloPolani\FilamentPlausibleWidget\Widgets\PlausibleWidget::class,
-    ],
-],
-```
-
 > If you're upgrading from v1 to v2 please note that the namespace changed from `\Danilopolani\`  to `\DaniloPolani\`.
 
 ### Upgrade
