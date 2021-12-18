@@ -99,7 +99,9 @@ class PlausibleWidget extends Widget
     }
 
     /**
-     * {@inheritDoc}
+     * Get timeseries for the current selected period.
+     *
+     * @return array
      */
     protected function getTimeseries(): array
     {
@@ -107,7 +109,10 @@ class PlausibleWidget extends Widget
     }
 
     /**
-     * {@inheritDoc}
+     * Format the date for the current selected period.
+     *
+     * @param  string $date
+     * @return string
      */
     protected function formatDate(string $date): string
     {

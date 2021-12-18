@@ -46,7 +46,7 @@ class WidgetServiceProvider extends PluginServiceProvider
     protected function getStyles(): array
     {
         return [
-            self::$name . '-styles' => '/vendor/' . self::$name . '/app.css',
+            self::$name . '-styles' => asset('/vendor/' . self::$name . '/app.css'),
         ];
     }
 
@@ -56,7 +56,7 @@ class WidgetServiceProvider extends PluginServiceProvider
     protected function getScripts(): array
     {
         return [
-            self::$name . '-scripts' => '/vendor/' . self::$name . '/app.js',
+            self::$name . '-scripts' => asset('/vendor/' . self::$name . '/app.js'),
         ];
     }
 }

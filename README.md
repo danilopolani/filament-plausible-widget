@@ -7,7 +7,7 @@ Add a fancy Plausible statistics widget to your Filament admin dashboard.
 
 <p align="center"><img src="https://i.imgur.com/TlBBVis.png" alt="Filament Plausible Widget preview"></p>
 
-> If you're using Filament v1, please navigate the [v1 branch](https://github.com/danilopolani/filament-plausible-widget/tree/v1.0.1).
+> If you're using Filament v1, please navigate the [1.x branch](https://github.com/danilopolani/filament-plausible-widget/tree/1.x).
 
 ## Installation
 
