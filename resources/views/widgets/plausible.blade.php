@@ -8,7 +8,7 @@
             @if ($periodSelectable)
                 <select
                     wire:model="currentPeriod"
-                    class="plausible-widget__select bg-white border rounded shadow-sm pl-3 pr-10 py-2 focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 border-gray-300">
+                    class="plausible-widget__select bg-white dark:bg-gray-900 border rounded shadow-sm pl-3 pr-10 py-2 focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 border-gray-300 dark:border-gray-700">
                     @foreach ($periods as $periodKey => $periodName)
                         <option value="{{ $periodKey }}">{{ $periodName }}</option>
                     @endforeach

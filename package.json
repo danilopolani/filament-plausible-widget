@@ -1,6 +1,6 @@
 {
     "name": "filament-plausible-widget",
-    "version": "1.0.0",
+    "version": "2.0.1",
     "description": "Plausible widget for Filament admin dashboard",
     "main": "index.js",
     "keywords": [
