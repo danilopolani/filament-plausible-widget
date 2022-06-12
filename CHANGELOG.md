@@ -2,6 +2,11 @@
 
 All notable changes to `filament-plausible-widget` will be documented in this file
 
+## 2.0.2 - 2022-06-12
+
+**Fixed**
+- Release tag, please see v2.0.1 for the actual diffs.
+
 ## 2.0.1 - 2022-05-31
 
 **Added**
