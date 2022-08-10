@@ -16,7 +16,7 @@ class PlausibleClient
     {
         $this->config = Config::get('filament-plausible-widget');
 
-        $this->http = Http::baseUrl('https://plausible.io/api/v1')
+        $this->http = Http::baseUrl($this->config['host'] . '/api/v1')
             ->withToken($this->config['token']);
     }
 
