@@ -20,14 +20,9 @@
     ],
     "require": {
         "php": "^8.0",
-        "filament/filament": "^2.5",
-        "illuminate/http": "^8.0|^9.0|^10.0",
-        "illuminate/support": "^8.0|^9.0|^10.0",
-        "livewire/livewire": "^2.6"
-    },
-    "require-dev": {
-        "orchestra/testbench": "^6.0",
-        "phpunit/phpunit": "^9.0"
+        "filament/filament": "^3.0 || 3.0-stable",
+        "illuminate/http": "^9.0 || ^10.0",
+        "illuminate/support": "^9.0 || ^10.0"
     },
     "autoload": {
         "psr-4": {
@@ -53,5 +48,6 @@
                 "DaniloPolani\\FilamentPlausibleWidget\\WidgetServiceProvider"
             ]
         }
-    }
+    },
+    "minimum-stability": "dev"
 }

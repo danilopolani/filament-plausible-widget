@@ -3,60 +3,36 @@
 namespace DaniloPolani\FilamentPlausibleWidget;
 
 use DaniloPolani\FilamentPlausibleWidget\Widgets\PlausibleWidget;
-use Filament\FilamentManager;
-use Filament\PluginServiceProvider;
+use Filament\Support\Assets\Css;
+use Filament\Support\Assets\Js;
+use Filament\Support\Facades\FilamentAsset;
+use Livewire\Livewire;
 use Spatie\LaravelPackageTools\Package;
+use Spatie\LaravelPackageTools\PackageServiceProvider;
 
-class WidgetServiceProvider extends PluginServiceProvider
+class WidgetServiceProvider extends PackageServiceProvider
 {
     public static string $name = 'filament-plausible-widget';
 
-    /**
-     * {@inheritDoc}
-     */
     public function configurePackage(Package $package): void
     {
-        parent::configurePackage($package);
-
         $package
-            ->hasAssets()
+            ->name(static::$name)
+            ->hasViews()
+            ->hasTranslations()
             ->hasConfigFile();
     }
 
-    public function packageRegistered(): void
+    public function packageBooted(): void
     {
-        $this->app->singletonIf('filament', fn (): FilamentManager => new FilamentManager());
+        Livewire::component('plausible-widget', PlausibleWidget::class);
 
-        parent::packageRegistered();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    protected function getWidgets(): array
-    {
-        return [
-            PlausibleWidget::class,
-        ];
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    protected function getStyles(): array
-    {
-        return [
-            self::$name . '-styles' => asset('/vendor/' . self::$name . '/app.css'),
-        ];
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    protected function getScripts(): array
-    {
-        return [
-            self::$name . '-scripts' => asset('/vendor/' . self::$name . '/app.js'),
-        ];
+        FilamentAsset::register(
+            assets: [
+                Css::make('plausible-widget', __DIR__ . '/../resources/dist/app.css'),
+                Js::make('plausible-widget', __DIR__ . '/../resources/dist/app.js')->loadedOnRequest(),
+            ],
+            package: 'danilopolani/filament-plausible-widget'
+        );
     }
 }
