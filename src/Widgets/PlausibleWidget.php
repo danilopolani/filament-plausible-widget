@@ -9,28 +9,25 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Config;
+use Livewire\Attributes\Locked;
 
 class PlausibleWidget extends Widget
 {
     /**
      * Currently selected period.
-     *
-     * @var string
      */
     public string $currentPeriod;
 
     /**
      * Available periods to select.
-     *
-     * @var array
      */
+    #[Locked]
     public array $periods;
 
     /**
      * Determine if a user can select a different period.
-     *
-     * @var bool
      */
+    #[Locked]
     public bool $periodSelectable;
 
     /**
@@ -45,7 +42,7 @@ class PlausibleWidget extends Widget
      *
      * @var string
      */
-    protected static string $view = 'filament-plausible-widget::widgets.plausible';
+    protected static string $view = 'plausible-widget::widgets.plausible';
 
     /**
      * {@inheritDoc}
@@ -55,12 +52,12 @@ class PlausibleWidget extends Widget
         $this->currentPeriod = Config::get('filament-plausible-widget.periods.default');
         $this->periodSelectable = Config::get('filament-plausible-widget.periods.selectable');
         $this->periods = [
-            'day' => __('filament-plausible-widget::widget.periods.today'),
-            '7d' => __('filament-plausible-widget::widget.periods.last_week'),
-            '30d' => __('filament-plausible-widget::widget.periods.last_30_days'),
-            'month' => __('filament-plausible-widget::widget.periods.this_month'),
-            '6mo' => __('filament-plausible-widget::widget.periods.last_6_months'),
-            '12mo' => __('filament-plausible-widget::widget.periods.last_12_months'),
+            'day' => __('plausible-widget::widget.periods.today'),
+            '7d' => __('plausible-widget::widget.periods.last_week'),
+            '30d' => __('plausible-widget::widget.periods.last_30_days'),
+            'month' => __('plausible-widget::widget.periods.this_month'),
+            '6mo' => __('plausible-widget::widget.periods.last_6_months'),
+            '12mo' => __('plausible-widget::widget.periods.last_12_months'),
         ];
     }
 
@@ -90,7 +87,7 @@ class PlausibleWidget extends Widget
             'data' => $data->values()->all(),
         ];
 
-        $this->emit('plausibleWidgetUpdated', $timeseries);
+        $this->dispatch('plausibleWidgetUpdated', $timeseries);
 
         return view(static::$view, [
             'siteId' => Config::get('filament-plausible-widget.site_id'),

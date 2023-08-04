@@ -25,6 +25,20 @@ php artisan vendor:publish --tag=filament-plausible-widget-assets
 
 > If you're upgrading from v1 to v2 please note that the namespace changed from `\Danilopolani\`  to `\DaniloPolani\`.
 
+### Filament v3
+
+To properly see the widget in Filament v3, open your `AdminPanelProvider` file and add the widget in the `->widgets()` array:
+
+```php
+use DaniloPolani\FilamentPlausibleWidget\Widgets\PlausibleWidget;
+
+->widgets([
+    Widgets\AccountWidget::class,
+    Widgets\FilamentInfoWidget::class,
+    PlausibleWidget::class,
+])
+```
+
 ### Upgrade
 When upgrading, you may want to republish the assets:
 
