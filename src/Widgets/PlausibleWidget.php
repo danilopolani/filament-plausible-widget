@@ -82,7 +82,7 @@ class PlausibleWidget extends ChartWidget
      */
     protected function getTimeseries(): array
     {
-        $this->filter = Config::get('filament-plausible-widget.periods.default');
+        $this->filter ??= Config::get('filament-plausible-widget.periods.default');
 
         return (new PlausibleClient())->timeseries($this->filter);
     }
