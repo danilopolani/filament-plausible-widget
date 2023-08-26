@@ -60,16 +60,6 @@ return [
         |
         */
         'default' => '7d',
-
-        /*
-        |--------------------------------------------------------------------------
-        | Default period
-        |--------------------------------------------------------------------------
-        |
-        | Define if the user can select a different period from the widget UI.
-        |
-        */
-        'selectable' => true,
     ],
 
     /*

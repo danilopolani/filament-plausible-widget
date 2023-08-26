@@ -3,75 +3,53 @@
 namespace DaniloPolani\FilamentPlausibleWidget\Widgets;
 
 use DaniloPolani\FilamentPlausibleWidget\Clients\PlausibleClient;
-use Filament\Widgets\Widget;
-use Illuminate\Contracts\View\View;
+use Filament\Widgets\ChartWidget;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Config;
-use Livewire\Attributes\Locked;
 
-class PlausibleWidget extends Widget
+class PlausibleWidget extends ChartWidget
 {
-    /**
-     * Currently selected period.
-     */
-    public string $currentPeriod;
+    protected static ?string $pollingInterval = null;
 
-    /**
-     * Available periods to select.
-     */
-    #[Locked]
-    public array $periods;
-
-    /**
-     * Determine if a user can select a different period.
-     */
-    #[Locked]
-    public bool $periodSelectable;
-
-    /**
-     * Plausible configuration.
-     *
-     * @var array
-     */
-    protected array $config;
-
-    /**
-     * Widget view name.
-     *
-     * @var string
-     */
-    protected static string $view = 'plausible-widget::widgets.plausible';
-
-    /**
-     * {@inheritDoc}
-     */
-    public function mount()
+    public function mount(): void
     {
-        $this->currentPeriod = Config::get('filament-plausible-widget.periods.default');
-        $this->periodSelectable = Config::get('filament-plausible-widget.periods.selectable');
-        $this->periods = [
-            'day' => __('plausible-widget::widget.periods.today'),
-            '7d' => __('plausible-widget::widget.periods.last_week'),
-            '30d' => __('plausible-widget::widget.periods.last_30_days'),
-            'month' => __('plausible-widget::widget.periods.this_month'),
-            '6mo' => __('plausible-widget::widget.periods.last_6_months'),
-            '12mo' => __('plausible-widget::widget.periods.last_12_months'),
+        parent::mount();
+
+        $this->filter = Config::get('filament-plausible-widget.periods.default');
+    }
+
+    public function getHeading(): string
+    {
+        return __('filament-plausible-widget::widget.header.visitors');
+    }
+
+    protected function getType(): string
+    {
+        return 'line';
+    }
+
+    protected function getFilters(): ?array
+    {
+        return [
+            'day' => __('filament-plausible-widget::widget.periods.today'),
+            '7d' => __('filament-plausible-widget::widget.periods.last_week'),
+            '30d' => __('filament-plausible-widget::widget.periods.last_30_days'),
+            'month' => __('filament-plausible-widget::widget.periods.this_month'),
+            '6mo' => __('filament-plausible-widget::widget.periods.last_6_months'),
+            '12mo' => __('filament-plausible-widget::widget.periods.last_12_months'),
         ];
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    public function render(): View
+    protected function getData(): array
     {
         /** @var array $timeseries */
         $plausibleData = [];
 
         if (Config::get('filament-plausible-widget.cache.enabled')) {
             $plausibleData = Cache::remember(
-                'filament-plausible-widget:' . $this->currentPeriod,
+                'filament-plausible-widget:' . $this->filter,
                 Carbon::now()->add(Config::get('filament-plausible-widget.cache.ttl')),
                 fn () => $this->getTimeseries()
             );
@@ -82,17 +60,19 @@ class PlausibleWidget extends Widget
         $data = Collection::make($plausibleData)
             ->mapWithKeys(fn (array $item) => [$item['date'] => $item['visitors']]);
 
-        $timeseries = [
+        return [
+            'datasets' => [
+                [
+                    'label' => 'Views',
+                    'data' => $data->values()->all(),
+                    'borderWidth' => 3,
+                    'borderColor' => 'rgb(101, 116, 205)',
+                    'pointBackgroundColor' => 'rgb(101, 116, 205)',
+                    'backgroundColor' => 'rgba(101, 116, 205, .2)',
+                ],
+            ],
             'labels' => $data->keys()->map(fn (string $date) => $this->formatDate($date))->all(),
-            'data' => $data->values()->all(),
         ];
-
-        $this->dispatch('plausibleWidgetUpdated', $timeseries);
-
-        return view(static::$view, [
-            'siteId' => Config::get('filament-plausible-widget.site_id'),
-            'timeseries' => $timeseries,
-        ]);
     }
 
     /**
@@ -102,7 +82,9 @@ class PlausibleWidget extends Widget
      */
     protected function getTimeseries(): array
     {
-        return (new PlausibleClient())->timeseries($this->currentPeriod);
+        $this->filter = Config::get('filament-plausible-widget.periods.default');
+
+        return (new PlausibleClient())->timeseries($this->filter);
     }
 
     /**
@@ -119,6 +101,6 @@ class PlausibleWidget extends Widget
             '12mo' => 'F',
         ];
 
-        return (new Carbon($date))->format($formats[$this->currentPeriod] ?? 'D, j M');
+        return (new Carbon($date))->format($formats[$this->filter] ?? 'D, j M');
     }
 }
