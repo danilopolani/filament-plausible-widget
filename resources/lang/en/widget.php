@@ -15,7 +15,7 @@ return [
     ],
 
     'footer' => [
-        'view_more' => 'View more',
+        'view_more' => 'View more statistics',
         'statistics_by' => 'Statistics by',
     ],
 ];

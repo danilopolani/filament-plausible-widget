@@ -15,7 +15,7 @@ return [
     ],
 
     'footer' => [
-        'view_more' => 'Guarda di più',
+        'view_more' => 'Guarda più statistiche',
         'statistics_by' => 'Statistiche da',
     ],
 ];

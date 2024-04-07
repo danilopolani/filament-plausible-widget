@@ -4,10 +4,12 @@ namespace DaniloPolani\FilamentPlausibleWidget\Widgets;
 
 use DaniloPolani\FilamentPlausibleWidget\Clients\PlausibleClient;
 use Filament\Widgets\ChartWidget;
+use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\HtmlString;
 
 class PlausibleWidget extends ChartWidget
 {
@@ -23,6 +25,16 @@ class PlausibleWidget extends ChartWidget
     public function getHeading(): string
     {
         return __('filament-plausible-widget::widget.header.visitors');
+    }
+
+    public function getDescription(): string|Htmlable|null
+    {
+        return new HtmlString(sprintf(
+            '<a href="https://plausible.io/%s" target="_blank" class="text-primary-600 dark:text-primary-400">%s %s</a>',
+            Config::get('filament-plausible-widget.site_id'),
+            __('filament-plausible-widget::widget.footer.view_more'),
+            svg('heroicon-o-arrow-top-right-on-square', 'w-3 h-3 inline-block')->toHtml(),
+        ));
     }
 
     protected function getType(): string
