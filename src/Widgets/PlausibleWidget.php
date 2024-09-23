@@ -30,7 +30,8 @@ class PlausibleWidget extends ChartWidget
     public function getDescription(): string|Htmlable|null
     {
         return new HtmlString(sprintf(
-            '<a href="https://plausible.io/%s" target="_blank" class="text-primary-600 dark:text-primary-400">%s %s</a>',
+            '<a href="%s/%s" target="_blank" class="text-primary-600 dark:text-primary-400">%s %s</a>',
+            Config::get('filament-plausible-widget.host'),
             Config::get('filament-plausible-widget.site_id'),
             __('filament-plausible-widget::widget.footer.view_more'),
             svg('heroicon-o-arrow-top-right-on-square', 'w-3 h-3 inline-block')->toHtml(),
