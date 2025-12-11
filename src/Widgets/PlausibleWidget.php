@@ -71,11 +71,11 @@ class PlausibleWidget extends ChartWidget
 
         $data = Collection::make($plausibleData)
             ->mapWithKeys(fn (array $item) => [$item['date'] => $item['visitors']]);
-
+        $label=__('widget.label');
         return [
             'datasets' => [
                 [
-                    'label' => 'Views',
+                    'label' => $label,
                     'data' => $data->values()->all(),
                     'borderWidth' => 3,
                     'borderColor' => 'rgb(101, 116, 205)',

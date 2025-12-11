@@ -18,4 +18,5 @@ return [
         'view_more' => 'Mehr Statistiken anschauen',
         'statistics_by' => 'Statistiken von',
     ],
+    'label'=>'Aufrufe'
 ];
